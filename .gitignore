@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.local
+.DS_Store
+*.log
+drizzle/
+generated-icon.png
+attached_assets/
