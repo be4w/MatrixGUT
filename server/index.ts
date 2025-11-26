@@ -67,3 +67,15 @@ app.use((req, res, next) => {
     log(`serving on port ${port}`);
   });
 })();
+
+registerRoutes(app);  // Registra as rotas (importado acima)
+
+// Integração com Vite se necessário
+setupVite(app);  // Se usar dev mode
+app.use(serveStatic);  // Serve static files
+
+const port = process.env.PORT || 3000;
+const host = '0.0.0.0';
+app.listen(port, host, () => {
+  console.log(`Server running on http://${host}:${port}`);
+});
