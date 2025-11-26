@@ -1,4 +1,5 @@
-import express, { type Request, Response, NextFunction } from "express";
+// server/index.ts
+import express from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -39,7 +40,7 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  app.use((err: any, _req: any, res: any, _next: any) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
 
@@ -47,33 +48,17 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client
   // Use Railway's dynamic port or fallback to 5000 for local
   const port = parseInt(process.env.PORT || '5000', 10);
   const host = '0.0.0.0';
   
   server.listen(port, host, () => {
     log(`serving on port ${port}`);
-  });     
-
-registerRoutes(app);  // Registra as rotas (importado acima)
-
-// Integração com Vite se necessário
-setupVite(app);  // Se usar dev mode
-app.use(serveStatic);  // Serve static files
-
-const port = process.env.PORT || 3000;
-const host = '0.0.0.0';
-app.listen(port, host, () => {
-  console.log(`Server running on http://${host}:${port}`);
-});
+  });
+})();
