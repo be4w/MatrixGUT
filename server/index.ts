@@ -1,7 +1,8 @@
-// server/index.ts
-import express from "express";
+import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { db } from "./db";  // Import your db connection
+import { migrate } from "drizzle-orm/node-postgres/migrator";  // For Neon/Postgres migrations
 
 const app = express();
 app.use(express.json());
@@ -17,23 +18,6 @@ app.use((req, res, next) => {
     capturedJsonResponse = bodyJson;
     return originalResJson.apply(res, [bodyJson, ...args]);
   };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
-  });
-
   next();
 });
 
@@ -48,16 +32,20 @@ app.use((req, res, next) => {
     throw err;
   });
 
+  // Run migrations to create tables (fix 'relation does not exist')
+  await migrate(db, { migrationsFolder: "migrations" });
+  console.log("Migrations applied successfully");
+
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  // Use Railway's dynamic port or fallback to 5000 for local
+  // Existing listen (port is correct)
   const port = parseInt(process.env.PORT || '5000', 10);
   const host = '0.0.0.0';
-  
+
   server.listen(port, host, () => {
     log(`serving on port ${port}`);
   });
