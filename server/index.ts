@@ -1,8 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { db } from "./db";  // Import your db connection
-import { migrate } from "drizzle-orm/node-postgres/migrator";  // For Neon/Postgres migrations
+import { db } from "./db"; // Import your db connection (may be null if using MemStorage)
+import { migrate } from "drizzle-orm/node-postgres/migrator"; // For Neon/Postgres migrations
 
 const app = express();
 app.use(express.json());
@@ -32,9 +32,13 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // Run migrations to create tables (fix 'relation does not exist')
-  await migrate(db, { migrationsFolder: "migrations" });
-  console.log("Migrations applied successfully");
+  // Run migrations to create tables (only if database is configured)
+  if (db) {
+    await migrate(db, { migrationsFolder: "migrations" });
+    console.log("Migrations applied successfully");
+  } else {
+    console.log("Running in-memory mode (no database). Migrations skipped.");
+  }
 
   if (app.get("env") === "development") {
     await setupVite(app, server);
@@ -43,8 +47,8 @@ app.use((req, res, next) => {
   }
 
   // Existing listen (port is correct)
-  const port = parseInt(process.env.PORT || '5000', 10);
-  const host = '0.0.0.0';
+  const port = parseInt(process.env.PORT || "5000", 10);
+  const host = "0.0.0.0";
 
   server.listen(port, host, () => {
     log(`serving on port ${port}`);

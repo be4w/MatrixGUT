@@ -24,12 +24,12 @@ export class MemStorage implements IStorage {
 
   async createTask(insertTask: InsertTask): Promise<Task> {
     const id = this.currentId++;
-    const task: Task = { 
-      ...insertTask, 
-      id, 
+    const task: Task = {
+      ...insertTask,
+      id,
       completed: false,
       labels: insertTask.labels || null,
-      notes: insertTask.notes || null
+      notes: insertTask.notes || null,
     };
     this.tasks.set(id, task);
     return task;
@@ -38,7 +38,7 @@ export class MemStorage implements IStorage {
   async updateTask(id: number, updates: Partial<Task>): Promise<Task> {
     const task = this.tasks.get(id);
     if (!task) throw new Error(`Task with id ${id} not found`);
-    
+
     const updatedTask = { ...task, ...updates };
     this.tasks.set(id, updatedTask);
     return updatedTask;
@@ -65,7 +65,7 @@ export class DbStorage implements IStorage {
       .set(updates)
       .where(eq(tasks.id, id))
       .returning();
-    
+
     if (!task) throw new Error(`Task with id ${id} not found`);
     return task;
   }
@@ -75,4 +75,8 @@ export class DbStorage implements IStorage {
   }
 }
 
-export const storage = new DbStorage();
+// Use MemStorage for local testing when DATABASE_URL is not set
+// Use DbStorage when DATABASE_URL is available (production)
+export const storage = process.env.DATABASE_URL
+  ? new DbStorage()
+  : new MemStorage();

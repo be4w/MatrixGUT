@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -12,11 +19,11 @@ interface ImportModalProps {
 }
 
 const SECTION_HEADERS = [
-  'HOJE',
-  'AMANHÃ',
-  'EM BREVE',
-  'OUTRO DIA',
-  'TODAS AS TAREFAS',
+  "HOJE",
+  "AMANHÃ",
+  "EM BREVE",
+  "OUTRO DIA",
+  "TODAS AS TAREFAS",
 ];
 
 function parseAnyDoTasks(content: string): string[] {
@@ -24,7 +31,7 @@ function parseAnyDoTasks(content: string): string[] {
     return [];
   }
 
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   const tasks: string[] = [];
   let currentTask: string | null = null;
 
@@ -32,40 +39,52 @@ function parseAnyDoTasks(content: string): string[] {
     const line = lines[i];
     const trimmedLine = line.trimStart();
 
-    if (trimmedLine.startsWith('☐') || trimmedLine.startsWith('☑') || trimmedLine.startsWith('✓')) {
+    if (
+      trimmedLine.startsWith("☐") ||
+      trimmedLine.startsWith("☑") ||
+      trimmedLine.startsWith("✓")
+    ) {
       if (currentTask !== null) {
         tasks.push(currentTask.trim());
       }
 
       const taskText = trimmedLine.substring(1).trimStart();
-      
+
       let cleanedTask = taskText;
       for (const header of SECTION_HEADERS) {
         if (taskText.endsWith(header)) {
-          cleanedTask = taskText.substring(0, taskText.length - header.length).trim();
+          cleanedTask = taskText
+            .substring(0, taskText.length - header.length)
+            .trim();
           break;
         }
       }
-      
+
       currentTask = cleanedTask;
     } else if (currentTask !== null) {
-      if (trimmedLine === '' || 
-          trimmedLine.startsWith('Any.do |') || 
-          trimmedLine === 'Esta lista foi criada por www.any.do' ||
-          SECTION_HEADERS.some(header => trimmedLine === header || trimmedLine.startsWith(header))) {
+      if (
+        trimmedLine === "" ||
+        trimmedLine.startsWith("Any.do |") ||
+        trimmedLine === "Esta lista foi criada por www.any.do" ||
+        SECTION_HEADERS.some(
+          (header) => trimmedLine === header || trimmedLine.startsWith(header)
+        )
+      ) {
         continue;
       }
 
       let continuationText = line;
       for (const header of SECTION_HEADERS) {
         if (continuationText.endsWith(header)) {
-          continuationText = continuationText.substring(0, continuationText.length - header.length).trim();
+          continuationText = continuationText
+            .substring(0, continuationText.length - header.length)
+            .trim();
           break;
         }
       }
-      
+
       if (continuationText.trim()) {
-        currentTask += '\n' + continuationText.trim();
+        currentTask += "\n" + continuationText.trim();
       }
     }
   }
@@ -74,7 +93,7 @@ function parseAnyDoTasks(content: string): string[] {
     tasks.push(currentTask.trim());
   }
 
-  return tasks.filter(task => task.length > 0);
+  return tasks.filter((task) => task.length > 0);
 }
 
 export function ImportModal({ open, onOpenChange }: ImportModalProps) {
@@ -97,7 +116,8 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
     if (tasks.length === 0) {
       toast({
         title: "No tasks found",
-        description: "No tasks found. Make sure you copied the complete note from Google Keep.",
+        description:
+          "No tasks found. Make sure you copied the complete note from Google Keep.",
         variant: "destructive",
       });
       return;
@@ -116,10 +136,12 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
       }
 
       queryClient.invalidateQueries({ queryKey: ["/api/tasks"] });
-      
+
       toast({
         title: "Import successful",
-        description: `Imported ${tasks.length} task${tasks.length === 1 ? '' : 's'} from Any.do!`,
+        description: `Imported ${tasks.length} task${
+          tasks.length === 1 ? "" : "s"
+        } from Any.do!`,
       });
 
       setContent("");
@@ -137,14 +159,18 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]" data-testid="dialog-import-modal">
+      <DialogContent
+        className="sm:max-w-[600px]"
+        data-testid="dialog-import-modal"
+      >
         <DialogHeader>
           <DialogTitle>Paste your Any.do → Google Keep note</DialogTitle>
           <DialogDescription>
-            Copy your tasks from Google Keep and paste them below. All tasks will be imported with default priority.
+            Copy your tasks from Google Keep and paste them below. All tasks
+            will be imported with default priority.
           </DialogDescription>
         </DialogHeader>
-        
+
         <Textarea
           data-testid="textarea-import-content"
           value={content}

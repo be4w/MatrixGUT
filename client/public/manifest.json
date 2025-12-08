@@ -4,8 +4,11 @@
   "description": "A GUT prioritization task manager for ADHD users",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "hsl(248, 90%, 66%)",
+  "scope": "/",
+  "categories": ["productivity", "health"],
   "icons": [
     {
       "src": "/icons/icon-192.svg",

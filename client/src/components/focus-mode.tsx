@@ -15,8 +15,8 @@ interface FocusModeProps {
 export function FocusMode({ tasks }: FocusModeProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const queryClient = useQueryClient();
-  
-  const activeTasks = tasks.filter(t => !t.completed);
+
+  const activeTasks = tasks.filter((t) => !t.completed);
   const currentTask = activeTasks[currentIndex];
 
   if (!currentTask) {
@@ -29,7 +29,9 @@ export function FocusMode({ tasks }: FocusModeProps) {
   }
 
   const completeTask = async () => {
-    await apiRequest("PATCH", `/api/tasks/${currentTask.id}`, { completed: true });
+    await apiRequest("PATCH", `/api/tasks/${currentTask.id}`, {
+      completed: true,
+    });
     queryClient.invalidateQueries({ queryKey: ["/api/tasks"] });
   };
 
@@ -42,7 +44,12 @@ export function FocusMode({ tasks }: FocusModeProps) {
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold mb-2">{currentTask.name}</h2>
         <Badge variant="secondary" className="text-xl px-4 py-2">
-          Priority: {calculatePriority(currentTask.gravity, currentTask.urgency, currentTask.tendency)}
+          Priority:{" "}
+          {calculatePriority(
+            currentTask.gravity,
+            currentTask.urgency,
+            currentTask.tendency
+          )}
         </Badge>
       </div>
 
@@ -51,10 +58,16 @@ export function FocusMode({ tasks }: FocusModeProps) {
           const value = currentTask[metric as keyof Task] as number;
           return (
             <div key={metric} className="text-center">
-              <h3 className="text-lg font-semibold capitalize mb-2">{metric}</h3>
+              <h3 className="text-lg font-semibold capitalize mb-2">
+                {metric}
+              </h3>
               <div className="text-3xl font-bold mb-1">{value}</div>
               <div className="text-sm text-muted-foreground">
-                {gutCriteria[metric as keyof typeof gutCriteria][value as keyof (typeof gutCriteria)[keyof typeof gutCriteria]]}
+                {
+                  gutCriteria[metric as keyof typeof gutCriteria][
+                    value as keyof (typeof gutCriteria)[keyof typeof gutCriteria]
+                  ]
+                }
               </div>
             </div>
           );

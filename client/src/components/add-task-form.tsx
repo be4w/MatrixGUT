@@ -12,6 +12,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Plus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { LabelAutocomplete } from "@/components/label-autocomplete";
 
 export function AddTaskForm() {
   const queryClient = useQueryClient();
@@ -51,7 +52,7 @@ export function AddTaskForm() {
           )}
         />
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {["gravity", "urgency", "tendency"].map((metric) => (
             <FormField
               key={metric}
@@ -59,7 +60,7 @@ export function AddTaskForm() {
               name={metric as keyof InsertTask}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="capitalize">{metric}</FormLabel>
+                  <FormLabel className="capitalize text-sm sm:text-base">{metric}</FormLabel>
                   <Select
                     value={field.value.toString()}
                     onValueChange={(value) => field.onChange(parseInt(value))}
@@ -89,14 +90,12 @@ export function AddTaskForm() {
           name="labels"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Labels (comma-separated)</FormLabel>
+              <FormLabel>Labels</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="work, personal, urgent..."
-                  value={field.value?.join(", ") || ""}
-                  onChange={(e) => field.onChange(
-                    e.target.value.split(",").map(label => label.trim()).filter(Boolean)
-                  )}
+                <LabelAutocomplete
+                  value={field.value || []}
+                  onChange={field.onChange}
+                  placeholder="Type to search existing labels or add new ones..."
                 />
               </FormControl>
               <FormMessage />

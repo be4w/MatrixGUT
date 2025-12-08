@@ -9,5 +9,52 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    /* Prevent text size adjustment on iOS */
+    -webkit-text-size-adjust: 100%;
+    /* Improve touch scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Safe area insets for mobile devices with notches */
+  :root {
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  }
+
+  /* Ensure minimum touch target size (44x44px recommended by Apple/Google) */
+  button,
+  a,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improve tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+@layer utilities {
+  /* Safe area padding utilities */
+  .pb-safe {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .pt-safe {
+    padding-top: calc(1rem + env(safe-area-inset-top));
+  }
+
+  .px-safe {
+    padding-left: calc(1rem + env(safe-area-inset-left));
+    padding-right: calc(1rem + env(safe-area-inset-right));
+  }
+
+  .mb-safe {
+    margin-bottom: calc(1rem + env(safe-area-inset-bottom));
   }
 }

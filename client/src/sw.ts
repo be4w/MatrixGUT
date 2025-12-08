@@ -1,7 +1,7 @@
-import { clientsClaim } from 'workbox-core';
-import { precacheAndRoute } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
+import { clientsClaim } from "workbox-core";
+import { precacheAndRoute } from "workbox-precaching";
+import { registerRoute } from "workbox-routing";
+import { StaleWhileRevalidate, CacheFirst } from "workbox-strategies";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -13,23 +13,22 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 // Cache API requests
 registerRoute(
-  ({ url }) => url.pathname.startsWith('/api/'),
+  ({ url }) => url.pathname.startsWith("/api/"),
   new StaleWhileRevalidate({
-    cacheName: 'api-cache'
+    cacheName: "api-cache",
   })
 );
 
 // Cache static assets (icons, manifest)
 registerRoute(
-  ({ request }) => 
-    request.destination === 'image' || 
-    request.url.includes('manifest.json'),
+  ({ request }) =>
+    request.destination === "image" || request.url.includes("manifest.json"),
   new CacheFirst({
-    cacheName: 'static-assets'
+    cacheName: "static-assets",
   })
 );
 
 // Handle offline fallback
-self.addEventListener('install', () => {
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
