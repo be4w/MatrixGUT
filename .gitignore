@@ -8,3 +8,5 @@ drizzle/
 generated-icon.png
 attached_assets/
 node_modules/
+.vercel
+.env*.local

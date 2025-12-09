@@ -1,0 +1,87 @@
+diff --git a/api/index.ts b/api/index.ts
+deleted file mode 100644
+index e651702..0000000
+--- a/api/index.ts
++++ /dev/null
+@@ -1,32 +0,0 @@
+-import express from "express";
+-import type { Request, Response } from "express";
+-import { registerRoutes } from "../server/routes";
+-
+-const app = express();
+-app.use(express.json());
+-app.use(express.urlencoded({ extended: false }));
+-
+-// Initialize routes once and reuse the same app for all invocations
+-let initPromise: Promise<void> | null = null;
+-async function init() {
+-  if (!initPromise) {
+-    initPromise = (async () => {
+-      // registerRoutes configures the Express `app` with all routes
+-      await registerRoutes(app as any);
+-
+-      // simple error handler copied from server/index.ts
+-      app.use((err: any, _req: Request, res: Response, _next: any) => {
+-        const status = err?.status || err?.statusCode || 500;
+-        const message = err?.message || "Internal Server Error";
+-        res.status(status).json({ message });
+-        throw err;
+-      });
+-    })();
+-  }
+-  return initPromise;
+-}
+-
+-export default async function handler(req: Request, res: Response) {
+-  await init();
+-  return app(req, res as any);
+-}
+diff --git a/client/public/sw.js b/client/public/sw.js
+new file mode 100644
+index 0000000..0b44298
+--- /dev/null
++++ b/client/public/sw.js
+@@ -0,0 +1,21 @@
++// Minimal Service Worker (sw.js)
++// This file is required to prevent a 404 error and enable basic PWA features.
++// For full offline support, more complex caching logic would be needed.
++
++self.addEventListener('install', (event) => {
++  console.log('Service Worker installing.');
++  // Force the waiting service worker to become the active service worker
++  self.skipWaiting();
++});
++
++self.addEventListener('activate', (event) => {
++  console.log('Service Worker activating.');
++  // Claim control of all clients (tabs)
++  event.waitUntil(self.clients.claim());
++});
++
++self.addEventListener('fetch', (event) => {
++  // We are not implementing any caching logic here,
++  // so the service worker will just let all requests go to the network.
++  // This prevents the reported 404 error for sw.js.
++});
+diff --git a/vercel.json b/vercel.json
+index ad11920..514206b 100644
+--- a/vercel.json
++++ b/vercel.json
+@@ -12,9 +12,17 @@
+     }
+   ],
+   "routes": [
++    {
++      "src": "/api/(.*)",
++      "dest": "/api/[...slug]"
++    },
+     {
+       "src": "/sw.js",
+       "dest": "/sw.js"
++    },
++    {
++      "src": "/(.*)",
++      "dest": "/dist/public/$1"
+     }
+   ]
+ }
