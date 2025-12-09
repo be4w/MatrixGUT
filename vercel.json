@@ -5,16 +5,16 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": { "distDir": "dist/public" }
+    },
+    {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/sw.js",
       "dest": "/sw.js"
-    },
-    {
-      "src": "^/(.*)$",
-      "dest": "/index.html"
     }
   ]
 }
