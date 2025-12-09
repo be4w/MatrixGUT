@@ -2,6 +2,9 @@ import { tasks, type Task, type InsertTask } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
+// Helper type: Non-nullable drizzle DB instance
+type DbInstance = NonNullable<typeof db>;
+
 export interface IStorage {
   getTasks(): Promise<Task[]>;
   createTask(task: InsertTask): Promise<Task>;
@@ -50,17 +53,29 @@ export class MemStorage implements IStorage {
 }
 
 export class DbStorage implements IStorage {
+  private db: DbInstance;
+
+  constructor() {
+    if (!db) {
+      // Defensive: prevent constructing DbStorage when the DB isn't initialized
+      throw new Error(
+        "DbStorage cannot be used because the database instance is not initialized. Set DATABASE_URL to enable DB mode."
+      );
+    }
+    this.db = db;
+  }
+
   async getTasks(): Promise<Task[]> {
-    return await db.select().from(tasks);
+    return await this.db.select().from(tasks);
   }
 
   async createTask(insertTask: InsertTask): Promise<Task> {
-    const [task] = await db.insert(tasks).values(insertTask).returning();
+    const [task] = await this.db.insert(tasks).values(insertTask).returning();
     return task;
   }
 
   async updateTask(id: number, updates: Partial<Task>): Promise<Task> {
-    const [task] = await db
+    const [task] = await this.db
       .update(tasks)
       .set(updates)
       .where(eq(tasks.id, id))
@@ -71,7 +86,7 @@ export class DbStorage implements IStorage {
   }
 
   async deleteTask(id: number): Promise<void> {
-    await db.delete(tasks).where(eq(tasks.id, id));
+    await this.db.delete(tasks).where(eq(tasks.id, id));
   }
 }
 
