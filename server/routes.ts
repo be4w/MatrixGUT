@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertTaskSchema } from "@shared/schema";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -19,7 +20,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve service worker with correct MIME type
   app.get("/sw.js", (_req, res) => {
     res.setHeader("Content-Type", "application/javascript");
-    res.sendFile(path.resolve(__dirname, "../dist/public/sw.js"));
+    // Try production build location first, then client/public (dev)
+    const prodSw = path.resolve(__dirname, "../dist/public/sw.js");
+    const devSw = path.resolve(__dirname, "../client/public/sw.js");
+
+    if (fs.existsSync(prodSw)) {
+      return res.sendFile(prodSw);
+    }
+
+    if (fs.existsSync(devSw)) {
+      return res.sendFile(devSw);
+    }
+
+    // File missing — respond 404 without throwing
+    res.status(404).json({ message: "sw.js not found" });
   });
 
   app.get("/api/tasks", async (_req, res) => {
