@@ -25,7 +25,7 @@ async function testAPI() {
         console.log('2️⃣ Testing POST /api/tasks...');
         const newTask = {
             name: 'Test Task ' + Date.now(),
-            gravity: 5,
+            impact: 5,
             urgency: 4,
             tendency: 3,
             labels: ['test'],

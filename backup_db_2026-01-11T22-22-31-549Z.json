@@ -1,0 +1,179 @@
+{
+  "tasks": [
+    {
+      "id": 7,
+      "name": "Curso corretor imoveis",
+      "gravity": 3,
+      "urgency": 3,
+      "tendency": 3,
+      "completed": false,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 10,
+      "name": "Conseguir armação óculos multifocal sueli",
+      "gravity": 3,
+      "urgency": 3,
+      "tendency": 3,
+      "completed": false,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 13,
+      "name": "Dar entrada no pedido de bolsa família",
+      "gravity": 3,
+      "urgency": 3,
+      "tendency": 3,
+      "completed": false,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 6,
+      "name": "Procurar Dr Mario Heringer Clim",
+      "gravity": 3,
+      "urgency": 3,
+      "tendency": 5,
+      "completed": false,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 8,
+      "name": "Marcar  tomografia no Posto Hélio Pelegrino",
+      "gravity": 3,
+      "urgency": 4,
+      "tendency": 5,
+      "completed": false,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 14,
+      "name": "Limpar a casa vender doar objetos",
+      "gravity": 3,
+      "urgency": 5,
+      "tendency": 4,
+      "completed": false,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 15,
+      "name": "Renovar carteira nacional de habilitação",
+      "gravity": 3,
+      "urgency": 5,
+      "tendency": 3,
+      "completed": false,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 16,
+      "name": "Fazer parcelamento do IPTU ",
+      "gravity": 5,
+      "urgency": 5,
+      "tendency": 5,
+      "completed": true,
+      "sensitive": false,
+      "labels": [
+        "Urgente"
+      ],
+      "notes": ""
+    },
+    {
+      "id": 5,
+      "name": "Ir centro parcelar dívida ativa penhora imóvel",
+      "gravity": 5,
+      "urgency": 5,
+      "tendency": 5,
+      "completed": true,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 11,
+      "name": "Passar INSS do meu pai para o nome da minha mae",
+      "gravity": 5,
+      "urgency": 5,
+      "tendency": 5,
+      "completed": true,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    },
+    {
+      "id": 18,
+      "name": "INSS levar Docs IMA ABA necessários exigências ",
+      "gravity": 5,
+      "urgency": 5,
+      "tendency": 5,
+      "completed": true,
+      "sensitive": false,
+      "labels": [
+        "Urgent"
+      ],
+      "notes": "Pode levar os originais em qualquer agência correios\nLá eles escaneiam e mandam p/ INSS."
+    },
+    {
+      "id": 17,
+      "name": "Jan/2026 Ir na prefeitura pegar boleto IPTU parcelamento 84x",
+      "gravity": 5,
+      "urgency": 5,
+      "tendency": 5,
+      "completed": false,
+      "sensitive": false,
+      "labels": [
+        "Casa"
+      ],
+      "notes": "Hoje 2 Dez 2025 fui na prefeitura (R Afonso Cavalcante 455) setor de dívida ativa penhora imóvel, e peguei somente a parcela 1 do parcelamento em 84x. TIA RITA PAGOU O PARCELAMENTO 1.\nEm janeiro 2026 TEM QUE VOLTAR PRA PEGAR OS BOLETOS RESTANTES DE PAGTO.\nVERIFICAR SE PRECISO IR NO CARTÓRIO DE PROTESTOS!!!\n"
+    },
+    {
+      "id": 23,
+      "name": "Pegar guelt ponto masc 450 hhhh",
+      "gravity": 5,
+      "urgency": 5,
+      "tendency": 5,
+      "completed": false,
+      "sensitive": true,
+      "labels": [
+        "casa"
+      ],
+      "notes": "Era 1200\nAgora 800\nPagou 1 parc IPTU, 2f 15/12 pegar 450"
+    },
+    {
+      "id": 25,
+      "name": "Retorno Riofarmes ",
+      "gravity": 3,
+      "urgency": 2,
+      "tendency": 2,
+      "completed": false,
+      "sensitive": false,
+      "labels": [
+        "Ima"
+      ],
+      "notes": "Retorno 11/02 16h levar receita rivastigmina 18mg"
+    },
+    {
+      "id": 9,
+      "name": "Ir Riofarmes 15/12 ver se aprovado ",
+      "gravity": 5,
+      "urgency": 5,
+      "tendency": 5,
+      "completed": true,
+      "sensitive": false,
+      "labels": [],
+      "notes": ""
+    }
+  ]
+}

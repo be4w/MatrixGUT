@@ -46,7 +46,7 @@ export function FocusMode({ tasks }: FocusModeProps) {
         <Badge variant="secondary" className="text-xl px-4 py-2">
           Priority:{" "}
           {calculatePriority(
-            currentTask.gravity,
+            currentTask.impact,
             currentTask.urgency,
             currentTask.tendency
           )}
@@ -54,7 +54,7 @@ export function FocusMode({ tasks }: FocusModeProps) {
       </div>
 
       <div className="grid grid-cols-3 gap-6 mb-8">
-        {["gravity", "urgency", "tendency"].map((metric) => {
+        {["impact", "urgency", "tendency"].map((metric) => {
           const value = currentTask[metric as keyof Task] as number;
           return (
             <div key={metric} className="text-center">
@@ -65,7 +65,7 @@ export function FocusMode({ tasks }: FocusModeProps) {
               <div className="text-sm text-muted-foreground">
                 {
                   gutCriteria[metric as keyof typeof gutCriteria][
-                    value as keyof (typeof gutCriteria)[keyof typeof gutCriteria]
+                  value as keyof (typeof gutCriteria)[keyof typeof gutCriteria]
                   ]
                 }
               </div>

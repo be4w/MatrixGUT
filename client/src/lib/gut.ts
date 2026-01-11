@@ -1,10 +1,10 @@
 export const gutCriteria = {
-  gravity: {
-    1: "No apparent gravity",
-    2: "Slightly grave",
-    3: "Grave",
-    4: "Very grave",
-    5: "Extremely grave",
+  impact: {
+    1: "No impact - Minimal, insignificant damage",
+    2: "Low impact - Minor but noticeable damage",
+    3: "Moderate impact - Regular damage, medium effect",
+    4: "High impact - Major damage, but reversible",
+    5: "Extreme impact - Severe, potentially irreversible damage",
   },
   urgency: {
     1: "No hurry",
@@ -23,9 +23,9 @@ export const gutCriteria = {
 };
 
 export const calculatePriority = (
-  gravity: number,
+  impact: number,
   urgency: number,
   tendency: number
 ) => {
-  return gravity * urgency * tendency;
+  return impact * urgency * tendency;
 };

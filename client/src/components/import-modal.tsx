@@ -128,7 +128,7 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
       for (const taskName of tasks) {
         await apiRequest("POST", "/api/tasks", {
           name: taskName,
-          gravity: 1,
+          impact: 1,
           urgency: 1,
           tendency: 1,
           sensitive: false,
@@ -139,9 +139,8 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
 
       toast({
         title: "Import successful",
-        description: `Imported ${tasks.length} task${
-          tasks.length === 1 ? "" : "s"
-        } from Any.do!`,
+        description: `Imported ${tasks.length} task${tasks.length === 1 ? "" : "s"
+          } from Any.do!`,
       });
 
       setContent("");

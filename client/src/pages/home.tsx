@@ -32,8 +32,8 @@ export default function Home() {
       );
     })
     .sort((a, b) => {
-      const priorityA = a.gravity * a.urgency * a.tendency;
-      const priorityB = b.gravity * b.urgency * b.tendency;
+      const priorityA = a.impact * a.urgency * a.tendency;
+      const priorityB = b.impact * b.urgency * b.tendency;
       return priorityB - priorityA;
     });
 

@@ -59,7 +59,7 @@ export function TaskList({ tasks }: TaskListProps) {
 
   const updateTaskScore = async (
     taskId: number,
-    field: "gravity" | "urgency" | "tendency",
+    field: "impact" | "urgency" | "tendency",
     value: number
   ) => {
     await apiRequest("PATCH", `/api/tasks/${taskId}`, {
@@ -147,9 +147,8 @@ export function TaskList({ tasks }: TaskListProps) {
                   />
                 ) : (
                   <span
-                    className={`text-base sm:text-lg truncate ${
-                      task.completed ? "line-through" : ""
-                    }`}
+                    className={`text-base sm:text-lg truncate ${task.completed ? "line-through" : ""
+                      }`}
                   >
                     {task.name}
                   </span>
@@ -161,7 +160,7 @@ export function TaskList({ tasks }: TaskListProps) {
                   variant="secondary"
                   className="text-sm sm:text-lg font-mono whitespace-nowrap"
                 >
-                  {calculatePriority(task.gravity, task.urgency, task.tendency)}
+                  {calculatePriority(task.impact, task.urgency, task.tendency)}
                 </Badge>
 
                 {editingTask === task.id ? (
@@ -219,7 +218,7 @@ export function TaskList({ tasks }: TaskListProps) {
             {expandedTask === task.id && (
               <div className="mt-4 space-y-4">
                 <div className="grid grid-cols-3 gap-4">
-                  {(["gravity", "urgency", "tendency"] as const).map(
+                  {(["impact", "urgency", "tendency"] as const).map(
                     (metric) => (
                       <div key={metric} className="space-y-1.5 sm:space-y-2">
                         <label className="text-xs sm:text-sm font-medium capitalize">

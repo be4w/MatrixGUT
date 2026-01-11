@@ -14,7 +14,7 @@ neonConfig.webSocketConstructor = ws;
 const tasks = pgTable("tasks", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  gravity: integer("gravity").notNull(),
+  impact: integer("impact").notNull(),
   urgency: integer("urgency").notNull(),
   tendency: integer("tendency").notNull(),
   completed: boolean("completed").notNull().default(false),
@@ -143,7 +143,7 @@ async function init() {
 
           const taskData = {
             name: req.body.name,
-            gravity: req.body.gravity || 3,
+            impact: req.body.impact || 3,
             urgency: req.body.urgency || 3,
             tendency: req.body.tendency || 3,
             sensitive: req.body.sensitive || false,

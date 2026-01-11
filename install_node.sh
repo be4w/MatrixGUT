@@ -1,0 +1,13 @@
+#!/bin/bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+echo "Installing Node.js v20..."
+nvm install 20
+nvm use 20
+nvm alias default 20
+
+echo "Node version:"
+node -v
+echo "NPM version:"
+npm -v

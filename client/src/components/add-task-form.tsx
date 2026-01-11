@@ -20,7 +20,7 @@ export function AddTaskForm() {
     resolver: zodResolver(insertTaskSchema),
     defaultValues: {
       name: "",
-      gravity: 3,
+      impact: 3,
       urgency: 3,
       tendency: 3,
       labels: [],
@@ -53,7 +53,7 @@ export function AddTaskForm() {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          {["gravity", "urgency", "tendency"].map((metric) => (
+          {["impact", "urgency", "tendency"].map((metric) => (
             <FormField
               key={metric}
               control={form.control}

@@ -55,7 +55,7 @@ Your Neon database should have a `tasks` table:
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
-  gravity INTEGER NOT NULL,
+  impact INTEGER NOT NULL,
   urgency INTEGER NOT NULL,
   tendency INTEGER NOT NULL,
   completed BOOLEAN NOT NULL DEFAULT false,

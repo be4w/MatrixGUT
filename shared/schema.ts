@@ -12,7 +12,7 @@ import { z } from "zod";
 export const tasks = pgTable("tasks", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  gravity: integer("gravity").notNull(),
+  impact: integer("impact").notNull(),
   urgency: integer("urgency").notNull(),
   tendency: integer("tendency").notNull(),
   completed: boolean("completed").notNull().default(false),
@@ -35,7 +35,7 @@ export const insertTaskSchema = createInsertSchema(tasks)
         const endsWithHhhh = name.toLowerCase().endsWith("hhhh");
         return name;
       }),
-    gravity: z.number().min(1).max(5),
+    impact: z.number().min(1).max(5),
     urgency: z.number().min(1).max(5),
     tendency: z.number().min(1).max(5),
     labels: z.array(z.string()).optional(),
