@@ -160,7 +160,11 @@ export function TaskList({ tasks }: TaskListProps) {
                   variant="secondary"
                   className="text-sm sm:text-lg font-mono whitespace-nowrap"
                 >
-                  {calculatePriority(task.impact, task.urgency, task.tendency)}
+                  {calculatePriority(
+                    task.impact || 0,
+                    task.urgency || 0,
+                    task.tendency || 0
+                  )}
                 </Badge>
 
                 {editingTask === task.id ? (
@@ -225,7 +229,7 @@ export function TaskList({ tasks }: TaskListProps) {
                           {metric}
                         </label>
                         <Select
-                          value={task[metric].toString()}
+                          value={(task[metric] || 0).toString()}
                           onValueChange={(value) =>
                             updateTaskScore(task.id, metric, parseInt(value))
                           }
