@@ -66,7 +66,9 @@ export class DbStorage implements IStorage {
   }
 
   async getTasks(): Promise<Task[]> {
-    return await this.db.select().from(tasks);
+    const tasks = await this.db.select().from(tasks);
+    console.log("[DEBUG] First task sample:", JSON.stringify(tasks[0] || "No tasks"));
+    return tasks;
   }
 
   async createTask(insertTask: InsertTask): Promise<Task> {
