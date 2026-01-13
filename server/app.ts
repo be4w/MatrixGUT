@@ -35,13 +35,15 @@ export async function setupApp() {
 
     // Migrations
     if (db) {
-        try {
-            await migrate(db, { migrationsFolder: "migrations" });
-            console.log("Migrations applied successfully");
-        } catch (e) {
-            console.error("Migration failed:", e);
-            // Don't crash in production if migration fails (might be permission issue), just log
-        }
+        // PERFOMANCE FIX: In Vercel (Serverless), we DO NOT want to block startup with migrations.
+        // It causes timeouts on cold starts. We use `npm run db:push` for updates.
+        console.log("[DEBUG] Database connected. Skipping runtime migration to prevent hanging.");
+        // try {
+        //     await migrate(db, { migrationsFolder: "migrations" });
+        //     console.log("Migrations applied successfully");
+        // } catch (e) {
+        //     console.error("Migration failed:", e);
+        // }
     } else {
         console.log("Running in-memory mode (no database). Migrations skipped.");
     }
