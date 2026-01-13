@@ -11,7 +11,12 @@ let pool: Pool | null = null;
 let db: ReturnType<typeof drizzle> | null = null;
 
 if (process.env.DATABASE_URL) {
-  pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  // Defensive: Cleanup URL to prevent Vercel/Neon connection issues
+  // We remove 'channel_binding=require' which causes ECONNRESET in some environments
+  const cleanUrl = process.env.DATABASE_URL.replace(/&channel_binding=require/, "");
+
+  console.log("[DEBUG] Initializing DB with sanitized URL");
+  pool = new Pool({ connectionString: cleanUrl });
   db = drizzle({ client: pool, schema });
 }
 
