@@ -37,6 +37,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/tasks", async (_req, res) => {
+    console.log("[DEBUG] GET /api/tasks - Server Time:", new Date().toISOString());
     const tasks = await storage.getTasks();
     res.json(tasks);
   });
